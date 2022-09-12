@@ -2,12 +2,12 @@
 # The arithmatic formater (for children) project of freeCodeCamp.org python course
 
 
-def checkAllErrors(arithmaticList):
+def checkAllExceptions(arithmaticList):
     '''
     Parameters
     ----------
-    arithmaticList : TYPE
-        DESCRIPTION.
+    arithmaticList : TYPE = List of strings
+        List of problems to be formatted, each element of list is a string
 
     Returns
     -------
@@ -16,8 +16,7 @@ def checkAllErrors(arithmaticList):
     allOperators : TYPE = List of string
         List of all operation to be perforemed
     digitSpace : TYPE = List of ints
-        List containing all 
-
+        List containing spaces for uniform formatting
     '''
     
     allOperators = []
@@ -42,25 +41,30 @@ def checkAllErrors(arithmaticList):
             raise Exception("Error: Numbers cannot be more than four digits.")        
 
         allDigits.append(arithmetic)
-        digitSpace.append(max([len(arithmetic[i]) for i in range(len(arithmetic))]) + 2)
+        
+        maxDig = max([len(arithmetic[i]) for i in range(len(arithmetic))])
+        digitSpace.append([maxDig+2-len(arithmetic[0]), maxDig+1-len(arithmetic[1])])
+            
         
         try:
             arithmetic = [int(arithmetic[i]) for i in range(len(arithmetic))]
-        except :
+        except:
             raise ValueError("Error: Numbers must only contain digits.")
+        
     
     return allDigits, allOperators, digitSpace
 
 
 
-def arithmatic_arranger(arithmaticList, getSolution):
+# Function to provide aesthetic formating for young students
+def arithmatic_arranger(arithmaticList, showSolution):
     '''
     Parameters
     ----------
     arithmaticList : TYPE = List/tuple
         List containing all arithmatic operations requested by user for formatting
         all elements of the list are in string format.
-    getSolution : TYPE = boolean
+    showSolution : TYPE = boolean
         A boolean variable that instructs the code to solve the arithmatic problems or not.
 
     Returns
@@ -69,13 +73,42 @@ def arithmatic_arranger(arithmaticList, getSolution):
     '''
 
     
-    allDigits, allOperators, digitSpace = checkAllErrors(arithmaticList)
+    allDigits, allOperators, digitSpace = checkAllExceptions(arithmaticList)
+
+    solution = []
+    ct = 0
+    for nums in allDigits:
+        if allOperators[ct] == "+":
+            solution.append(int(nums[0]) + int(nums[1]))
+        else:
+            solution.append(int(nums[0]) - int(nums[1]))
+        ct += 1
+
+    for i in range(len(allDigits)):
+        print(" "*digitSpace[i][0] + allDigits[i][0], end=" "*4)
     
-    print(allDigits)
-    print(allOperators)
-    print(digitSpace)
+    print("")
+    for i in range(len(allDigits)):
+        print(allOperators[i]+" "*digitSpace[i][1] + allDigits[i][1], end=" "*4)
+
+    print("")
+    totalSpace = []
+    for i in range(len(allDigits)):
+        maxDigLen = max([len(allDigits[i][j]) for j in range(len(allDigits[i]))])
+        print("-"*(maxDigLen+2), end=" "*4)
+        totalSpace.append(maxDigLen+2)
     
-            
+    print("")    
+    if showSolution == True:
+        for i in range(len(solution)):
+            print(" "*(totalSpace[i]-len(str(solution[i]))) + str(solution[i]), end =" "*4)
+        
+    
+    
+    #print(allDigits)
+    #print(allOperators)
+    #print(digitSpace)
+
     return
 
 
@@ -84,7 +117,7 @@ def main():
     '''
     The main function that will be make call to other subfunctions
     '''
-    arithmatic_arranger(["32 + 8", "1 - 801", "5234 - 49"], False)
+    arithmatic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
 
     return
 
