@@ -1,7 +1,7 @@
 
 # The arithmatic formater (for children) project of freeCodeCamp.org python course
 
-
+# This function checks for all the exceptions, an example of good practice of defensive programing
 def checkAllExceptions(arithmaticList):
     '''
     Parameters
@@ -18,7 +18,7 @@ def checkAllExceptions(arithmaticList):
     digitSpace : TYPE = List of ints
         List containing spaces for uniform formatting
     '''
-    
+
     allOperators = []
     allDigits = []
     digitSpace = []
@@ -34,24 +34,23 @@ def checkAllExceptions(arithmaticList):
         operator = arithmetic[1]
         if operator != "-" and operator != "+":
             raise Exception("Error: Operator must be '+' or '-'.")
-        
+
         allOperators.append(operator)
         arithmetic.remove(operator)
         if len(arithmetic[0]) > 4 or len(arithmetic[1]) > 4:
             raise Exception("Error: Numbers cannot be more than four digits.")        
 
         allDigits.append(arithmetic)
-        
+
         maxDig = max([len(arithmetic[i]) for i in range(len(arithmetic))])
         digitSpace.append([maxDig+2-len(arithmetic[0]), maxDig+1-len(arithmetic[1])])
-            
-        
+
+
         try:
             arithmetic = [int(arithmetic[i]) for i in range(len(arithmetic))]
         except:
             raise ValueError("Error: Numbers must only contain digits.")
-        
-    
+
     return allDigits, allOperators, digitSpace
 
 
@@ -72,7 +71,6 @@ def arithmatic_arranger(arithmaticList, showSolution):
     None.
     '''
 
-    
     allDigits, allOperators, digitSpace = checkAllExceptions(arithmaticList)
 
     solution = []
@@ -86,7 +84,7 @@ def arithmatic_arranger(arithmaticList, showSolution):
 
     for i in range(len(allDigits)):
         print(" "*digitSpace[i][0] + allDigits[i][0], end=" "*4)
-    
+
     print("")
     for i in range(len(allDigits)):
         print(allOperators[i]+" "*digitSpace[i][1] + allDigits[i][1], end=" "*4)
@@ -97,17 +95,12 @@ def arithmatic_arranger(arithmaticList, showSolution):
         maxDigLen = max([len(allDigits[i][j]) for j in range(len(allDigits[i]))])
         print("-"*(maxDigLen+2), end=" "*4)
         totalSpace.append(maxDigLen+2)
-    
-    print("")    
+
+    print("")
     if showSolution == True:
         for i in range(len(solution)):
             print(" "*(totalSpace[i]-len(str(solution[i]))) + str(solution[i]), end =" "*4)
-        
-    
-    
-    #print(allDigits)
-    #print(allOperators)
-    #print(digitSpace)
+
 
     return
 
