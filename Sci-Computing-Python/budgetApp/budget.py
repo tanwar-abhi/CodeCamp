@@ -4,54 +4,59 @@ class Category:
     ledger = []
     
     # initializer (Contructor)
-    def __init__(self, catergoryType):
-        self.catergoryType = catergoryType
+    def __init__(self, cType):
+        self.Category = cType
 
 
 
-    def deposit(amount, desc=""):
-        ledger.append({"amount":amount, "description":desc})
+    def deposit(self, amount, desc=""):
+        self.ledger.append({"amount":amount, "description":desc})
 
 
 
-    def withdraw(amount, desc):
+    def withdraw(self, amount, desc=''):
 
-        if check_funds(amount):
-            ledger.append({"amount":-amount, "description":desc})
+        if self.check_funds(amount):
+            self.ledger.append({"amount":-amount, "description":desc})
             return True
         else:
             return False
 
 
 
-    def get_balance():
+    def get_balance(self):
         balance = 0
-        for entry in ledger:
+        for entry in self.ledger:
             balance += entry["amount"]
         return balance
 
 
 
-    def transfer(amount, budgetType):
-        remark = "Transfer to " + budgetType.categoryType
-        response = self.withdraw(amount, desc)
+    def transfer(self, amount, budget):
+        remark = "Transfer to " + budget.Category
+        response = self.withdraw(amount, remark)
         if response:
-            remark = "Transfer from " + self.catergoryType
-            budgetType.deposit(amount, desc)
+            remark = "Transfer from " + self.Category
+            budget.deposit(amount, remark)
 
         return response
 
 
     
-    def check_funds(amount):
+    def check_funds(self, amount):
         totalBalance = self.get_balance()
         if totalBalance < amount:
             return False
         else:
             return True
         
-    def printObj():
-        
+
+    def __str__(self):
+        formatSize = int((30 - len(self.Category))/2)
+        print("*"*formatSize + self.Category + "*"*formatSize)
+        for entry in self.ledger:
+            print(entry["description"] + " " + str(entry["amount"]))
+        print("Total: " + str(self.get_balance()))
         
 
 

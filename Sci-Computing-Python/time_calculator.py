@@ -51,7 +51,6 @@ def add_time(startTime, duration, startingDay = ""):
         
         
         
-            
 
     result = str(totalHours) + ":" + str(totalMinutes) + " " + timePeriod
 
