@@ -1,4 +1,6 @@
 
+import math
+
 class Category:
     # List
     ledger = []
@@ -15,7 +17,6 @@ class Category:
 
 
     def withdraw(self, amount, desc=''):
-
         if self.check_funds(amount):
             self.ledger.append({"amount":-amount, "description":desc})
             return True
@@ -51,16 +52,25 @@ class Category:
             return True
         
 
+
     def __str__(self):
-        formatSize = int((30 - len(self.Category))/2)
-        print("*"*formatSize + self.Category + "*"*formatSize)
+        formatSize = math.ceil((30 - len(self.Category))/2)
+
+        # get maximum length of amount digits
+        digitMaxLen = 0
         for entry in self.ledger:
-            print(entry["description"] + " " + str(entry["amount"]))
-        print("Total: " + str(self.get_balance()))
-        
+            if len(str(entry["amount"])) > digitMaxLen:
+                digitMaxLen = len('{:.2f}'.format(entry["amount"]))
+
+        print("*"*formatSize + self.Category + "*"*formatSize)
+
+        for entry in self.ledger:
+            print(f"{entry['description'][0:23] :<23} {'{:.2f}'.format(entry['amount']) :>{digitMaxLen}}")
+
+        totalBalance = self.get_balance()
+        return (f"{'Total:':<7}{'{:.2f}'.format(totalBalance)}")
 
 
 
 #def create_spend_chart(categories):
     
-        
