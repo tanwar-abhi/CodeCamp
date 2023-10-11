@@ -1,0 +1,8 @@
+
+# Ignore cache files
+__pycache__/
+
+
+# Ignore doc and pdf files
+*.doc
+*.pdf
